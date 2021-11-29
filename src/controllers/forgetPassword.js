@@ -53,7 +53,8 @@ async function resetPassword(req,res)
     const User = await user.findOne({where:{email:req.body.email}});
     const password = await bcrypt.hash(req.body.password, saltRounds);
     User.update({password:password})
-    res.send("Password has been reseted successfully")
+    const response = new ResponseBody(true, "Password has been reseted successfully", {});
+    res.send(response)
 }
 
 module.exports={forgetPassword,verify,resetPassword}
