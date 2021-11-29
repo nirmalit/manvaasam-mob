@@ -3,6 +3,6 @@ const router= express.Router();
 const views=require('../controllers/address')
 
 
-router.get('/addaddress',views.addaddress)
+router.post('/addaddress',views.addaddress)
 
 module.exports=router

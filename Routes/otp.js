@@ -5,7 +5,7 @@ const verify=require('../controllers/verifyUser')
 
 
 
-router.get('/verifyotp',verify.verify)
-router.get('/resendotp',resend.resendOtp)
+router.post('/verifyotp',verify.verify)
+router.post('/resendotp',resend.resendOtp)
 
 module.exports=router

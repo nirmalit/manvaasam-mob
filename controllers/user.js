@@ -1,10 +1,9 @@
 const models = require('../models/user');
 bcrypt=require('bcrypt')
-const saltRounds=10
 const {generateOtp}=require('../utils/otp')
 const {v4}=require('uuid');
 const {sendmail}=require('../utils/sendEmail')
-
+require("dotenv").config();
 function errorinuser(fn,err)
 {
     console.log("error at",fn)
@@ -34,7 +33,7 @@ async function registeruser(req,res){
         };
         sendmail(mailOptions)
         
-        const password = await bcrypt.hash(req.body.password, saltRounds)
+        const password = await bcrypt.hash(req.body.password,parseInt(process.env.SALT_ROUNDS))
         user.create({userid:userId,name:name,email:email,mobile:mobile,password:password,verified:false})
         
         res.send("otp sented sucessfully")}}

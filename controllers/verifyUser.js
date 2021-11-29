@@ -4,7 +4,6 @@ async function verify(req,res)
 {
     if (verifyOtp(req.body.otp,req.body.email)) {
         const User = await user.findOne({where:{email:req.body.email}});
-        console.log(User)
         User.update({verified:true})
         res.send("You has been successfully registered");
     }

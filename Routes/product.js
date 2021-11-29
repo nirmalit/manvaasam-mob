@@ -4,7 +4,7 @@ const views=require('../controllers/product')
 const verify=require('../Middleware/middleware')
 
 
-router.get('/addproduct',verify.authenticateToken,views.addproduct)
+router.post('/addproduct',verify.authenticateToken,views.addproduct)
 router.get('/getallproducts',views.getallproducts)
 
 module.exports=router

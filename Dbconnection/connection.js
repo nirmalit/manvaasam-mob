@@ -1,10 +1,11 @@
 const { pool } = require('mssql');
 const { Sequelize } = require('sequelize')
+require("dotenv").config();
 
-const sequelize = new Sequelize("manvaasm", "root", 
-"Saidhoni@888", {
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, 
+  process.env.DB_PASSWORD, {
 host: "localhost",
-  port: "3306",  
+  port: process.env.DB_PORT,  
   dialect: "mysql",
   options:{
     trustServerCertificate: true

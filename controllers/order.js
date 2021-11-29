@@ -10,17 +10,28 @@ function errorinuser(fn,err)
 
 }
 
-function addorder(req,res){
+async function addorder(req,res){
     try{
-    var userid=req.body.userid
-    var productid=req.body.productid
-    orders.create({userid:userid,productid:productid})
+    const User=await user.findOne({where:{email:req.body.email}});
+    orders.create({userid:User.userid,productid:parseInt(req.body.productid)})
     res.send('orderplaced')}
     catch(e){
         errorinuser('addorder',e)
     }
 
     }
-module.exports={addorder}
+
+async function myorders(req,res){
+    try{
+    const User=await user.findOne({where:{email:req.body.email}});
+    const myorders=await orders.findAll({where:{userid:User.userid}})
+    console.log(myorders)
+    res.send(myorders)}
+    catch(e){
+        errorinuser('addorder',e)
+    }
+
+    }
+module.exports={addorder,myorders}
 
    

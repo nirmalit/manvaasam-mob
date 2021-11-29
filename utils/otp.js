@@ -12,7 +12,6 @@ const generateOtp = (secret) => {
 };
 
 const verifyOtp = (token, secret) => {
-    console.log(token)
     return totp.verify({ token, secret });
 };
 
