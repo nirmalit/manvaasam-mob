@@ -5,7 +5,7 @@ const app=express()
 bcrypt=require('bcrypt')
 const jwt = require('jsonwebtoken');
 require("dotenv").config();
-
+const {ResponseBody} = require('../utils/response')
 
 function errorinuser(fn,err)
 {
@@ -28,20 +28,21 @@ async function login(req,res)
                         { userid:User.userid },process.env.JWT_KEY,
                         {expiresIn: "10h",}
                       );
-                      
-                    res.send({
-                        success:true,data:{"Token":token},msg:"loginsuccess"});
+                    const response = new ResponseBody(true, "Login successfull", {"Token":token});
+                    res.send(response);
                 } else {
-                    res.send({
-                        success:false,data:[],msg:"Wrong username or password."});
+                    const response = new ResponseBody(false, "Wrong username or password", {});
+                    res.send(response);
                 }
             }
             else{
-                res.send("you need to verify your email")
+                const response = new ResponseBody(false, "you need to verify your email", {});
+                res.send(response)
             }
         } 
         else {
-            res.send("Wrong username or password.");
+            const response = new ResponseBody(false, "Wrong username or password", {});
+            res.send(response);
         }
     }
     catch(e){

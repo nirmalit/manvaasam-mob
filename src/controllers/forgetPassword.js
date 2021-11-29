@@ -5,6 +5,7 @@ const {generateOtp}=require('../utils/otp')
 const {sendmail}=require('../utils/sendEmail')
 const {verifyOtp}=require('../utils/otp');
 const jwt = require('jsonwebtoken');
+const {ResponseBody} = require('../utils/response')
 
 async function forgetPassword(req,res)
 {
@@ -16,7 +17,8 @@ async function forgetPassword(req,res)
         html: "<h3>OTP for resetpassword is </h3>" + "<h1 style='font-weight:bold;'>" + otp + "</h1>" // html body
     };
     sendmail(mailOptions)
-    res.send('Otp has been sent to registerd email')
+    const response = new ResponseBody(true, "Otp has been sent to registerd email", {});
+    res.send(response)
 
 }
 
@@ -30,15 +32,18 @@ async function verify(req,res)
                 { userid:User.userid },process.env.JWT_KEY,
                 {expiresIn: "10h",}
               );
-              res.send({
-                success:true,data:{"Token":token},msg:"otp has been verified"});
+              const response = new ResponseBody(true, "otp has been verified", {"Token":token});
+              res.send(response)
         }
         else{
-            res.send("User has no account")
+            const response = new ResponseBody(false, "User has no account", {});
+            res.send(response)
         }
     }
     else {
-        res.send({ msg: 'otp is incorrect' });
+        const response = new ResponseBody(false, "otp is incorrect", {});
+        res.send(response)
+
     }
 
 }

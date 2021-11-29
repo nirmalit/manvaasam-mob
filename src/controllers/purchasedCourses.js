@@ -2,6 +2,7 @@ const models = require('../models/purchasedcourses');
 var express=require('express');
 const router= express.Router();
 const app=express()
+const {ResponseBody} = require('../utils/response')
 
 function errorinuser(fn,err)
 {
@@ -14,7 +15,9 @@ function addpurchasedcourses(req,res){
     try{
     var userid=req.body.userid
     var courseid=req.body.courseid
-    res.send('coursepurchased')}
+    const response = new ResponseBody(true, "course purchased successfully", {});
+    res.send(response)
+    }
     catch(e){
         errorinuser('addpurchasedcourses',e)
     }

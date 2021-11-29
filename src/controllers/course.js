@@ -2,6 +2,7 @@ const models = require('../models/course');
 var express=require('express');
 const router= express.Router();
 const app=express()
+const {ResponseBody} = require('../utils/response')
 
 function errorinuser(fn,err)
 {
@@ -15,7 +16,9 @@ function addcourse(req,res){
     var coursename=req.body.coursename
     var instructor=req.body.instructor
     course.create({name:coursename,instructor:instructor})
-    res.send('courseadded')}
+    const response = new ResponseBody(true, "course added successfully", {"name":coursename});
+    res.send(response)
+    }
     catch(e){
         errorinuser('addcourse',e)
     }
@@ -24,7 +27,9 @@ function addcourse(req,res){
 async function getallcourses(req,res){  
     try{
     var courses=await course.findAll()
-    res.send(courses)}
+    const response = new ResponseBody(true, "course fetched successfully",courses);
+    res.send(response)
+    }
     catch(e){
         errorinuser('getallcourses',e)
     }

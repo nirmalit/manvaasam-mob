@@ -2,6 +2,7 @@ const models = require('../models/product');
 var express=require('express');
 const router= express.Router();
 const app=express()
+const {ResponseBody} = require('../utils/response')
 
 function errorinuser(fn,err)
 {
@@ -16,7 +17,9 @@ function addproduct(req,res){
     var price=req.body.price
     var description=req.body.description
     product.create({name:productname,price:price,description:description})
-    res.send('productadded')}
+    const response = new ResponseBody(true, "product added successfully", {name:productname});
+    res.send(response)
+    }
     catch(e){
         errorinuser('addproduct',e)
     }
@@ -27,7 +30,9 @@ async function getallproducts(req,res){
     try{
     var products=await product.findAll()
     console.log(products)
-    res.send(products)}
+    const response = new ResponseBody(true, "product fetched successfully", products);
+    res.send(response)
+    }
     catch(e){
         errorinuser('getallproducts',e)
     }
