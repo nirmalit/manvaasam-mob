@@ -25,7 +25,6 @@ async function myorders(req,res){
     try{
     const User=await user.findOne({where:{email:req.body.email}});
     const myorders=await orders.findAll({where:{userid:User.userid}})
-    console.log(myorders)
     res.send(myorders)}
     catch(e){
         errorinuser('addorder',e)
