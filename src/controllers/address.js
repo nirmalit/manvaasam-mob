@@ -14,9 +14,8 @@ function errorinuser(fn,err)
 async function addaddress(req,res){
     try{
     const User=await user.findOne({where:{email:req.body.email}});
-    var address=req.body.address
     if(User){
-        const newAddress = address.create({userid:User.userid,address:address})
+        const newAddress = address.create({userid:User.userid,address:req.body.address})
         const response = new ResponseBody(true, "address added successfull", {});
         res.send(response);
     }
