@@ -36,5 +36,24 @@ async function getallcourses(req,res){
 
     }
 
-module.exports={addcourse,getallcourses}
+const deleteCourse = async(req,res) => {
+    try{
+        const find = await course.findOne({where:{courseid:parseInt(req.body.courseid)}});
+        if(find){
+            const courses = course.destroy({where:{courseid:parseInt(req.body.courseid)}})
+            const response = new ResponseBody(true, "course deleted successfully",courses);
+            res.send(response)
+        }
+        else{
+            const response = new ResponseBody(false, "course not found",{});
+            res.send(response)
+        }
+        
+    }
+    catch(e){
+        errorinuser('getallcourses',e)
+    }
+}
+
+module.exports={addcourse,getallcourses,deleteCourse}
    

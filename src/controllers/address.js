@@ -11,13 +11,19 @@ function errorinuser(fn,err)
 
 }
 
-function addaddress(req,res){
+async function addaddress(req,res){
     try{
-    var userid=req.body.userid
+    const User=await user.findOne({where:{email:req.body.email}});
     var address=req.body.address
-    address.create({userid:userid,address:address})
-    const response = new ResponseBody(true, "address added successfull", {});
-    res.send(response);
+    if(User){
+        const newAddress = address.create({userid:User.userid,address:address})
+        const response = new ResponseBody(true, "address added successfull", {});
+        res.send(response);
+    }
+    else{
+        const response = new ResponseBody(false, "User not found", {});
+        res.send(response);
+    }
     }
     catch(e){
         errorinuser('addaddress',e)

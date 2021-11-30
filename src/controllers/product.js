@@ -38,8 +38,26 @@ async function getallproducts(req,res){
     }
 
     }
+const deleteProduct = async(req,res) => {
+    try{
+        const find = await product.findOne({where:{productid:parseInt(req.body.productid)}})
+        if(find){
+            const products =  product.destroy({where:{productid:parseInt(req.body.productid)}})
+            const response = new ResponseBody(true, "product deleted successfully", products);
+            res.send(response)
+        }
+        else{
+            const response = new ResponseBody(false, "product not found",{});
+            res.send(response)
+        }
+       
+    }
+    catch(e){
+        errorinuser("deleteProduct",e)
+    }
+}
     
     
-module.exports={addproduct,getallproducts}
+module.exports={addproduct,getallproducts,deleteProduct}
 
    
