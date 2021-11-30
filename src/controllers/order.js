@@ -1,4 +1,5 @@
 const models = require('../models/order');
+const productmodel = require('../models/product');
 var express=require('express');
 const router= express.Router();
 const app=express()
@@ -14,7 +15,9 @@ function errorinuser(fn,err)
 async function addorder(req,res){
     try{
     const User=await user.findOne({where:{email:req.body.email}});
-    orders.create({userid:User.userid,productid:parseInt(req.body.productid)})
+    const orderedproduct=await product.findOne({where:{productid:parseInt(req.body.productid)}})
+    const amount=orderedproduct.price * parseInt(req.body.count)
+    orders.create({userid:User.userid,productid:parseInt(req.body.productid),count:parseInt(req.body.count),amount:amount})
     const response = new ResponseBody(true, "product ordered successfully", {});
     res.send(response)
 }
