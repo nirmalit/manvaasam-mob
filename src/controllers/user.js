@@ -4,6 +4,8 @@ const {generateOtp}=require('../utils/otp')
 const {v4}=require('uuid');
 const {sendmail}=require('../utils/sendEmail')
 require("dotenv").config();
+const {ResponseBody} = require('../utils/response')
+
 function errorinuser(fn,err)
 {
     console.log("error at",fn)
@@ -17,12 +19,14 @@ async function registeruser(req,res){
     var mobile=req.body.mobile
     var userpassword=req.body.password
     if (!(email && userpassword && name && email)) {
-        res.status(400).send("All input is required");
+        const response = new ResponseBody(false, "All input is required", {});
+        res.status(400).send(response);
     }
     const oldUser = await user.findOne({where:{email:req.body.email}});
 
     if (oldUser) {
-      return res.status(409).send("User Already Exist. Please Login");
+        const response = new ResponseBody(false, "User Already Exist. Please Login", {});
+        return res.status(409).send(response);
     }
     else{
         const otp=generateOtp(req.body.email)
@@ -35,8 +39,10 @@ async function registeruser(req,res){
         
         const password = await bcrypt.hash(req.body.password,parseInt(process.env.SALT_ROUNDS))
         user.create({userid:userId,name:name,email:email,mobile:mobile,password:password,verified:false})
-        
-        res.send("otp sented sucessfully")}}
+        const response = new ResponseBody(true, "otp sented sucessfully", {});
+        res.send(response)
+    }
+}
     catch(e){
         errorinuser('userregistration',e)
     }
