@@ -1,7 +1,8 @@
-const models = require('../models/address');
+const models = require('../models/address_model');
 var express=require('express');
 const router= express.Router();
 const app=express()
+const {v4}=require('uuid');
 const {ResponseBody} = require('../utils/response')
 
 function errorinuser(fn,err)
@@ -15,7 +16,8 @@ async function addaddress(req,res){
     try{
     const User=await user.findOne({where:{email:req.body.email}});
     if(User){
-        address.create({userid:User.userid,Address:req.body.address})
+        const addressid=v4()
+        address.create({addressid:addressid,userid:User.userid,Address:req.body.address})
         const response = new ResponseBody(true, "address added successfully", {});
         res.send(response);
     }

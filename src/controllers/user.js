@@ -1,4 +1,4 @@
-const models = require('../models/user');
+const models = require('../models/user_model');
 bcrypt=require('bcrypt')
 const {generateOtp}=require('../utils/otp')
 const {v4}=require('uuid');

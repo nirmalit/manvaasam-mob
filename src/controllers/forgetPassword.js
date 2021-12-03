@@ -1,4 +1,4 @@
-const models = require('../models/user');
+const models = require('../models/user_model');
 bcrypt=require('bcrypt');
 const saltRounds=10;
 const {generateOtp}=require('../utils/otp')
@@ -9,7 +9,7 @@ const {ResponseBody} = require('../utils/response')
 
 async function forgetPassword(req,res)
 {
-    const User=await user.findOne({where:{email:req.body.email}});
+    const User=await user.findOne({where:{userid:req.body.email}});
     const otp=generateOtp(req.body.email)
     var mailOptions = {
         to: req.body.email,
