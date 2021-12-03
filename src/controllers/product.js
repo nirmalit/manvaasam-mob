@@ -1,7 +1,8 @@
-const models = require('../models/product');
+const models = require('../models/product_model');
 var express=require('express');
 const router= express.Router();
 const app=express()
+const {v4}=require('uuid');
 const {ResponseBody} = require('../utils/response')
 
 function errorinuser(fn,err)
@@ -13,10 +14,11 @@ function errorinuser(fn,err)
 
 function addproduct(req,res){
     try{
+    const productid = v4();
     var productname=req.body.productname
     var price=req.body.price
     var description=req.body.description
-    product.create({name:productname,price:price,description:description})
+    product.create({productid:productid,name:productname,price:price,description:description})
     const response = new ResponseBody(true, "product added successfully", {name:productname});
     res.send(response)
     }
@@ -40,9 +42,9 @@ async function getallproducts(req,res){
     }
 const deleteProduct = async(req,res) => {
     try{
-        const find = await product.findOne({where:{productid:parseInt(req.body.productid)}})
+        const find = await product.findOne({where:{productid:req.body.productid}})
         if(find){
-            const products =  product.destroy({where:{productid:parseInt(req.body.productid)}})
+            const products =  product.destroy({where:{productid:req.body.productid}})
             const response = new ResponseBody(true, "product deleted successfully", products);
             res.send(response)
         }

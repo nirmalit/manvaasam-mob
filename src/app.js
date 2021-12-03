@@ -1,15 +1,15 @@
 const connection= require('./Dbconnection/connection');
 const sequelize = require('./Dbconnection/connection');
 
-const user=require('./Routes/user');
-const address=require('./Routes/address');
-const course=require('./Routes/course');
-const product=require('./Routes/product');
-const purchasedcourses=require('./Routes/purchasedcourses');
-const auth=require('./Routes/auth');
-const order=require('./Routes/order');
-const otp=require('./Routes/otp');
-const password=require('./Routes/forgetpassword');
+const user=require('./Routes/user_route');
+const address=require('./Routes/address_route');
+const course=require('./Routes/course_route');
+const product=require('./Routes/product_route');
+const purchasedcourses=require('./Routes/purchasedcourses_route');
+const auth=require('./Routes/auth_route');
+const order=require('./Routes/order_route');
+const otp=require('./Routes/otp_route');
+const password=require('./Routes/forgetpassword_route');
 var express=require('express');
 const bp=require('body-parser')
 const app=express()
