@@ -16,7 +16,7 @@ function errorinuser(fn,err)
 async function addorder(req,res){
     try{
     const User=await user.findOne({where:{email:req.body.email}});
-    const orderedproduct=await product.findOne({where:{productid:parseInt(req.body.productid)}})
+    const orderedproduct=await product.findOne({where:{productid:req.body.productid}})
     const amount=orderedproduct.price * parseInt(req.body.count)
     const orderid=v4()
     orders.create({orderid:orderid,userid:User.userid,productid:parseInt(req.body.productid),count:parseInt(req.body.count),amount:amount})
