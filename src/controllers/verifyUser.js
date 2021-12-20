@@ -1,4 +1,4 @@
-const models = require('../models/user');
+const models = require('../models/user_model');
 const {verifyOtp}=require('../utils/otp')
 const {ResponseBody} = require('../utils/response')
 async function verify(req,res)

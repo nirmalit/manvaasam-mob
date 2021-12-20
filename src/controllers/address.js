@@ -1,7 +1,8 @@
-const models = require('../models/address');
+const models = require('../models/address_model');
 var express=require('express');
 const router= express.Router();
 const app=express()
+const {v4}=require('uuid');
 const {ResponseBody} = require('../utils/response')
 
 function errorinuser(fn,err)
@@ -15,8 +16,28 @@ async function addaddress(req,res){
     try{
     const User=await user.findOne({where:{email:req.body.email}});
     if(User){
-        const newAddress = address.create({userid:User.userid,address:req.body.address})
-        const response = new ResponseBody(true, "address added successfull", {});
+        const addressid=v4()
+        address.create({addressid:addressid,userid:User.userid,Address:req.body.address})
+        const response = new ResponseBody(true, "address added successfully", {});
+        res.send(response);
+    }
+    else{
+        const response = new ResponseBody(false, "User not found", {});
+        res.send(response);
+    }
+    }
+    catch(e){
+        errorinuser('addaddress',e)
+    }
+    }
+
+
+async function deleteaddress(req,res){
+    try{
+    const User=await user.findOne({where:{email:req.body.email}});
+    if(User){
+        address.destroy({where:{userid:User.userid}})
+        const response = new ResponseBody(true, "address deleted successfully", {});
         res.send(response);
     }
     else{
@@ -31,4 +52,4 @@ async function addaddress(req,res){
     }
 
 
-module.exports={addaddress}
+module.exports={addaddress,deleteaddress}
